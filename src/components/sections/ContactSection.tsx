@@ -218,19 +218,6 @@ const Contact = () => {
             <Reveal type="heading" as="h2" className="contact-headline">
               <TypeCopy text={t.contact.headline} />
             </Reveal>
-            <Reveal type="text" className="contact-monument__status">
-              <p>
-                <span className="contact-log__prefix">&gt;</span>{" "}
-                <TypeCopy text={t.contact.statusPrefix} />{" "}
-                <span className="contact-log__ok">
-                  <StatusDot pulse />
-                  <TypeCopy text={t.contact.availability} />
-                </span>
-              </p>
-              <p className="contact-monument__note">
-                <TypeCopy text={t.contact.supporting} />
-              </p>
-            </Reveal>
           </RevealGroup>
 
           <div className="contact-workspace">
