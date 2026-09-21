@@ -6,6 +6,7 @@ import Reveal, { RevealGroup } from "@/components/ui/Reveal"
 import SiteIcon, { type SiteIconName } from "@/components/ui/SiteIcon"
 import TerminalPrompt from "@/components/terminal/TerminalPrompt"
 import TypeCopy from "@/components/terminal/TypeCopy"
+import { useParticles } from "@/components/particles"
 import { links } from "@/data/navegation"
 import { SITE_LOGO, SITE_NAME } from "@/data/site"
 import { WORKSPACE } from "@/data/workspace"
@@ -21,11 +22,32 @@ import {
   shouldRevealHomeChrome
 } from "@/lib/siteSession"
 import { usePathname } from "next/navigation"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useLayoutEffect, useState } from "react"
 
 const ORBIT_HOVER_RATE = 0.35
 const VALUE_ICONS: SiteIconName[] = ["ruler", "layers", "target", "route"]
 const NEXT_SECTION_PATH = links.find((link) => link.path !== "/")?.path ?? "/skills"
+const TYPE_PAUSE_MS = 240
+const TYPE_START_MS = 420
+
+const splitIntroCopy = (text: string) => {
+  const dash = text.search(/ — |—/)
+
+  if (dash > 12) {
+    const gap = text.slice(dash).startsWith(" — ") ? 3 : 1
+    const at = dash + gap
+    return [{ text: text.slice(0, at) }, { text: text.slice(at) }]
+  }
+
+  const pivot = text.match(/ (that|que) /i)
+
+  if (pivot?.index && pivot.index > 12) {
+    const at = pivot.index + 1
+    return [{ text: text.slice(0, at) }, { text: text.slice(at) }]
+  }
+
+  return [{ text }]
+}
 
 const setOrbitRate = (node: HTMLDivElement, rate: number) => {
   node.getAnimations().forEach((animation) => {
@@ -36,7 +58,10 @@ const setOrbitRate = (node: HTMLDivElement, rate: number) => {
 const IndexPage = () => {
   const pathname = usePathname()
   const { t, href } = useI18n()
+  const { reducedMotion } = useParticles()
   const [isFirstHome] = useState(() => !didLeaveHome())
+  const [ready, setReady] = useState(false)
+  const [typeStep, setTypeStep] = useState(isFirstHome ? -1 : 4)
 
   const revealChrome = useCallback(() => {
     if (isHomeChromeRevealed()) {
@@ -47,6 +72,31 @@ const IndexPage = () => {
     window.dispatchEvent(new Event(HOME_CHROME_REVEALED_EVENT))
     return true
   }, [])
+
+  useLayoutEffect(() => {
+    const frame = window.requestAnimationFrame(() => setReady(true))
+    return () => window.cancelAnimationFrame(frame)
+  }, [])
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setTypeStep(4)
+      return
+    }
+
+    if (!isFirstHome || typeStep !== -1) {
+      return
+    }
+
+    const timeoutId = window.setTimeout(() => setTypeStep(0), TYPE_START_MS)
+    return () => window.clearTimeout(timeoutId)
+  }, [isFirstHome, reducedMotion, typeStep])
+
+  const advanceType = (next: number) => () => {
+    window.setTimeout(() => {
+      setTypeStep((current) => (current < next ? next : current))
+    }, TYPE_PAUSE_MS)
+  }
 
   useEffect(() => {
     const onSectionChange = (event: Event) => {
@@ -124,7 +174,12 @@ const IndexPage = () => {
     }
   }, [pathname, revealChrome])
 
-  const introClass = ["home-intro", isFirstHome ? "" : "is-return"]
+  const introClass = [
+    "home-intro",
+    isFirstHome ? "is-first" : "is-return",
+    ready ? "is-ready" : "",
+    typeStep >= 4 ? "is-complete" : ""
+  ]
     .filter(Boolean)
     .join(" ")
 
@@ -138,11 +193,9 @@ const IndexPage = () => {
     >
       <Container className="home-page">
         <div className="home-hero">
-          <RevealGroup className="home-hero__copy" mode="fold" stagger={45}>
-            <Reveal type="eyebrow">
-              <TerminalPrompt path={WORKSPACE.home.path} className="home-hero__prompt" />
-            </Reveal>
-            <Reveal type="hero" className="home-hero__brand">
+          <div className="home-hero__copy">
+            <TerminalPrompt path={WORKSPACE.home.path} className="home-hero__prompt" />
+            <div className="home-hero__brand">
               <Image
                 className="home-hero__logo site-logo"
                 src={SITE_LOGO}
@@ -154,18 +207,24 @@ const IndexPage = () => {
                 loading="eager"
               />
               <p className="home-hero__brand-name gradient-text">{SITE_NAME}</p>
-            </Reveal>
-            <Reveal type="heading" as="p" className="home-hero__hello">
+            </div>
+            <p className="home-hero__hello">
               <TypeCopy
+                intro={isFirstHome}
+                play={typeStep >= 0}
+                onTyped={advanceType(1)}
                 parts={[
                   { text: `${t.home.greeting} ` },
                   { text: t.home.name, className: "gradient-text home-hero__name" }
                 ]}
               />
-            </Reveal>
-            <Reveal type="text" as="p" className="home-hero__role">
+            </p>
+            <p className={`home-hero__role${typeStep >= 1 ? " is-live" : ""}`}>
               <span className="home-hero__bracket">&lt;</span>{" "}
               <TypeCopy
+                intro={isFirstHome}
+                play={typeStep >= 1}
+                onTyped={advanceType(2)}
                 parts={[
                   { text: t.home.roleLead, className: "home-hero__teal" },
                   { text: " " },
@@ -173,27 +232,39 @@ const IndexPage = () => {
                 ]}
               />{" "}
               <span className="home-hero__bracket">/ &gt;</span>
-            </Reveal>
-            <Reveal type="heading" as="h1" className="home-hero__headline">
-              <TypeCopy text={t.home.headline} />
-            </Reveal>
-            <Reveal type="text" as="p" className="home-hero__body">
-              <TypeCopy text={t.home.body} />
+            </p>
+            <h1 className="home-hero__headline">
+              <TypeCopy
+                intro={isFirstHome}
+                play={typeStep >= 2}
+                pace="swift"
+                onTyped={advanceType(3)}
+                parts={splitIntroCopy(t.home.headline)}
+              />
+            </h1>
+            <p className="home-hero__body">
+              <TypeCopy
+                intro={isFirstHome}
+                play={typeStep >= 3}
+                pace="swift"
+                onTyped={advanceType(4)}
+                parts={splitIntroCopy(t.home.body)}
+              />
               <span className="home-hero__caret" aria-hidden="true">
                 _
               </span>
-            </Reveal>
-            <Reveal type="button" className="home-hero__actions">
+            </p>
+            <div className="home-hero__actions">
               <Button href={href(NEXT_SECTION_PATH)} variant="terminal">
                 <TypeCopy text={t.home.cta} />
               </Button>
               <Button href={href("/portfolio")} variant="secondary">
                 <TypeCopy text={t.home.ctaSecondary} />
               </Button>
-            </Reveal>
-          </RevealGroup>
+            </div>
+          </div>
 
-          <Reveal type="image" mode="fold" delay={200} className="home-hero__visual" aria-hidden="true">
+          <div className="home-hero__visual" aria-hidden="true">
             <div
               className="home-orbit"
               onPointerEnter={(event) =>
@@ -212,7 +283,7 @@ const IndexPage = () => {
             >
               <span className="home-orbit__node home-orbit__node--purple" />
             </div>
-          </Reveal>
+          </div>
         </div>
 
         <div className="home-value">
