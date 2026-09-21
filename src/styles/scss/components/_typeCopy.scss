@@ -1,0 +1,63 @@
+.type-copy,
+.type-copy__slot,
+.type-copy__ghost,
+.type-copy__live {
+  background-image: inherit;
+  background-clip: inherit;
+  -webkit-background-clip: inherit;
+  -webkit-text-fill-color: inherit;
+}
+
+.type-copy {
+  display: inline;
+}
+
+.type-copy--block {
+  display: block;
+}
+
+.site-nav__link .type-copy,
+.site-nav__link .type-copy__slot {
+  white-space: nowrap;
+}
+
+.type-copy__slot {
+  display: inline-grid;
+  justify-items: start;
+  vertical-align: baseline;
+}
+
+.type-copy--block .type-copy__slot {
+  display: grid;
+  width: 100%;
+}
+
+.type-copy__ghost,
+.type-copy__live {
+  grid-area: 1 / 1;
+}
+
+.type-copy__ghost {
+  visibility: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+.type-copy__live {
+  min-width: 0;
+}
+
+.type-copy__caret {
+  display: inline-block;
+  width: 0.52em;
+  height: 0.92em;
+  margin: 0 0 -0.1em 0.1em;
+  background: var(--brand-cyan);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--brand-cyan) 42%, transparent);
+  vertical-align: baseline;
+  animation: termBlink 1.05s steps(1) infinite;
+}
+
+html.is-locale-rewriting .home-hero__caret {
+  visibility: hidden;
+}

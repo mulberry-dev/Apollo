@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "embedded",
+  "dolt_database": "mulberry",
+  "project_id": "c6ba3b79-7f63-4ae9-a73a-a3a1722789c6"
+}

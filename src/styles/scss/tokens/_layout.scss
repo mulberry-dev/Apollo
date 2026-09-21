@@ -1,0 +1,9 @@
+:root {
+  --container: min(1200px, calc(100% - 48px));
+}
+
+@media (max-width: 767px) {
+  :root {
+    --container: min(1200px, calc(100% - 32px));
+  }
+}
