@@ -1,0 +1,113 @@
+.auth-page {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.auth-page--missing {
+  align-items: center;
+}
+
+.auth-card {
+  width: min(100%, 420px);
+  padding: var(--space-6);
+}
+
+.auth-page--missing .auth-card {
+  width: min(100%, 28rem);
+  padding: var(--space-8) var(--space-7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-4);
+  border: 1px solid transparent;
+  background:
+    linear-gradient(
+      color-mix(in srgb, var(--color-surface-glass) 90%, transparent),
+      color-mix(in srgb, var(--color-surface-glass) 90%, transparent)
+    ) padding-box,
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--color-purple) 55%, transparent),
+      color-mix(in srgb, var(--color-teal) 55%, transparent)
+    ) border-box;
+  box-shadow:
+    0 0 40px color-mix(in srgb, var(--color-purple) 10%, transparent),
+    0 0 56px color-mix(in srgb, var(--color-teal) 8%, transparent);
+  animation: authPop 0.55s cubic-bezier(0.34, 1.25, 0.42, 1) both;
+}
+
+.not-found-page {
+  justify-content: center;
+  padding-block: var(--space-8);
+}
+
+.not-found-card__icon {
+  margin-bottom: var(--space-2);
+}
+
+.not-found-card__icon .ui-icon-box--round {
+  width: 4.5rem;
+  height: 4.5rem;
+  border-color: color-mix(in srgb, var(--color-purple) 45%, var(--color-border));
+  box-shadow: var(--glow-purple);
+}
+
+.not-found-card__icon .ui-icon-box svg {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.not-found-card__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.not-found-card__copy h1,
+.not-found-card__copy h2 {
+  margin: 0;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  line-height: 1.1;
+}
+
+.not-found-card__copy p {
+  margin: 0;
+  max-width: 22rem;
+  color: var(--color-text-muted);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.not-found-card__actions {
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.auth-card h1,
+.auth-card h2 {
+  margin-bottom: var(--space-5);
+}
+
+@keyframes authPop {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-page--missing .auth-card {
+    animation: none;
+  }
+}

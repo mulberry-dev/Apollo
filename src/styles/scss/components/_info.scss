@@ -1,0 +1,40 @@
+@import "../tokens/_mixins";
+
+.swal2-popup {
+  background-color: var(--color-surface-glass) !important;
+  @include glass-blur;
+  border: 1px solid var(--color-border);
+  font-family: var(--font-sans) !important;
+  border-radius: var(--radius-lg);
+  color: var(--color-text);
+
+  h2 {
+    font-weight: 600 !important;
+    margin-top: 0 !important;
+    font-size: 1.125rem !important;
+    color: var(--color-text) !important;
+  }
+
+  .swal2-html-container {
+    color: var(--color-text-muted);
+    font-family: var(--font-sans) !important;
+    font-size: 0.9375rem;
+  }
+
+  .swal2-confirm {
+    border-radius: var(--radius-pill) !important;
+    background: var(--color-teal) !important;
+    color: #041016 !important;
+  }
+
+  .swal2-cancel {
+    border-radius: var(--radius-pill) !important;
+    background: transparent !important;
+    border: 1px solid var(--color-border) !important;
+    color: var(--color-text) !important;
+  }
+
+  .swal2-actions {
+    gap: 0.75rem;
+  }
+}

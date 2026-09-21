@@ -1,0 +1,18 @@
+@keyframes menuitem {
+  from {
+    transform: translateY(-60px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@for $i from 0 through 5 {
+  .menuitem-#{$i} {
+    animation: menuitem 0.7s 1 backwards cubic-bezier(0.34, 1.6, 0.42, 0.82)
+      #{100 + $i * 50}ms;
+  }
+}
