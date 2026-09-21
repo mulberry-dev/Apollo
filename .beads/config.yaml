@@ -6,7 +6,7 @@
 # Issue prefix for this repository (used by bd init)
 # If not set, bd init will auto-detect from directory name
 # Example: issue-prefix: "myproject" creates issues like "myproject-1", "myproject-2", etc.
-# issue-prefix: ""
+issue-prefix: "mulberry"
 
 # Use no-db mode: JSONL-only, no Dolt database
 # When true, .beads/issues.jsonl is the only local store
@@ -53,13 +53,13 @@
 # Optional JSONL auto-export for viewers, interchange, and issue-level migration.
 # Disabled by default; enable only when an integration needs fresh .beads/issues.jsonl.
 # Use relative paths under .beads/ for JSONL import/export filenames.
-# export:
-#   auto: false
-#   path: issues.jsonl
-#   interval: 60s
-#   git-add: false
-# import:
-#   path: issues.jsonl
+export:
+  auto: true
+  path: issues.jsonl
+  interval: 60s
+  git-add: false
+import:
+  path: issues.jsonl
 
 # Integration settings (access with 'bd config get/set')
 # Non-secret keys (stored in the database):
@@ -70,5 +70,5 @@
 # Secret keys (stored in this file but prefer env vars to avoid git exposure):
 # - linear.api_key  → use LINEAR_API_KEY env var instead
 # - github.token    → use GITHUB_TOKEN env var instead
-
-sync.remote: "git+https://x-access-token:ghs_1210556_eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhdXRobmQiLCJjdHgiOiIwMVB5UjJLd3NPMkdCcGNfc0dVU0xjZTU1dHp0TEExeVk4Q1l2bGNoZ05YNzM5ZDgtT1NFcDNvbV9xbXpuU1kiLCJleHAiOjE3ODk5NTkzOTUsImlhdCI6MTc4OTk1NTc5NSwiaXNzIjoiZ2l0aHViIiwianRpIjoiMjgxMjA0MzEtNWFjZi00NDNkLTgyNmEtYzFkMWEwYWY4NmM4IiwidmVyIjozfQ.CSaVN-oZpaXnTJxQoBsdn5HNCrMrI1ACWhfuEnH055TzAmsTnNhK9HW3WPWfNolW649M-X3u-riezB-R686oPw@github.com/mulberry-dev/mulberry-dev.git"
+#
+# Do not store Dolt/Git remotes with embedded credentials in this file.
