@@ -1,0 +1,125 @@
+main > section {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex: 1 0 auto;
+  padding: calc(var(--nav-height) + var(--space-6)) 0 var(--space-8);
+}
+
+.site-experience {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow-x: clip;
+}
+
+.site-experience:not(.is-aligned) {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.page-transition-view > main[hidden],
+.site-main[hidden] {
+  display: none !important;
+}
+
+.site-experience > section {
+  --section-surface: transparent;
+  position: relative;
+  flex: 0 0 auto;
+  scroll-margin-top: calc(var(--nav-height) + var(--space-3));
+  padding: var(--section-y) 0;
+  background: var(--section-surface);
+  overflow-x: clip;
+}
+
+.site-experience > section:focus {
+  outline: none;
+}
+
+.site-experience > section.is-deferred {
+  min-height: max(72vh, 28rem);
+  padding: 0;
+  pointer-events: none;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 72vh;
+}
+
+.site-experience > section + section {
+  border-top: 1px solid color-mix(in srgb, var(--color-border) 28%, transparent);
+}
+
+.site-experience > #index {
+  --section-y: clamp(1.5rem, 4vw, 2.75rem);
+  --section-surface: var(--color-canvas);
+  scroll-margin-top: 0;
+  padding: calc(var(--nav-height) + var(--space-4)) 0 0;
+  min-height: 100svh;
+  min-height: 100dvh;
+}
+
+.site-experience > #skills {
+  --section-y: var(--section-y-compact);
+  --section-surface: color-mix(in srgb, var(--color-surface) 58%, var(--color-canvas));
+}
+
+.site-experience > #portfolio {
+  --section-y: var(--section-y-spacious);
+  --section-surface: var(--color-canvas);
+}
+
+.site-experience > #process {
+  --section-y: var(--section-y-narrative);
+  --section-surface: color-mix(in srgb, var(--color-surface) 34%, transparent);
+}
+
+.site-experience > #about {
+  --section-y: var(--section-y-spacious);
+  --section-surface: var(--color-canvas);
+}
+
+.site-experience > #certifications {
+  --section-y: var(--section-y-compact);
+  --section-surface: color-mix(in srgb, var(--color-surface) 22%, transparent);
+}
+
+.site-experience > #contact {
+  --section-y: var(--section-y-monument);
+  --section-surface: var(--color-canvas);
+}
+
+.site-experience > #contact::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at 50% 12%,
+      color-mix(in srgb, var(--brand-cyan) 8%, transparent),
+      transparent 52%
+    ),
+    radial-gradient(
+      circle at 82% 88%,
+      color-mix(in srgb, var(--brand-purple) 6%, transparent),
+      transparent 46%
+    );
+}
+
+@media (max-width: 767px) {
+  .site-experience > #index {
+    padding-top: calc(var(--nav-height) + var(--space-3));
+    min-height: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,28 @@
+$space-1: 4px;
+$space-2: 8px;
+$space-3: 12px;
+$space-4: 16px;
+$space-5: 24px;
+$space-6: 32px;
+$space-7: 48px;
+$space-8: 64px;
+$space-9: 80px;
+
+:root {
+  --space-1: #{$space-1};
+  --space-2: #{$space-2};
+  --space-3: #{$space-3};
+  --space-4: #{$space-4};
+  --space-5: #{$space-5};
+  --space-6: #{$space-6};
+  --space-7: #{$space-7};
+  --space-8: #{$space-8};
+  --space-9: #{$space-9};
+  --nav-height: 76px;
+  --section-y: clamp(3.5rem, 7vw, 6.25rem);
+  --section-y-compact: clamp(2.75rem, 5vw, 4.25rem);
+  --section-y-narrative: clamp(4rem, 8vw, 7rem);
+  --section-y-spacious: clamp(4.75rem, 10vw, 8.5rem);
+  --section-y-monument: clamp(5.5rem, 12vw, 9.5rem);
+  --section-gap: clamp(2.25rem, 4vw, 3.5rem);
+}

@@ -1,0 +1,94 @@
+.reveal {
+  --reveal-y: 10px;
+  --reveal-scale: 1;
+  --reveal-duration: 0.72s;
+  --reveal-delay: 0ms;
+  --reveal-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0;
+  transform: translate3d(0, var(--reveal-y), 0) scale(var(--reveal-scale));
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.reveal.is-armed {
+  transition:
+    opacity var(--reveal-duration) var(--reveal-ease) var(--reveal-delay),
+    transform var(--reveal-duration) var(--reveal-ease) var(--reveal-delay);
+}
+
+.reveal.is-armed:not(.is-visible) {
+  animation: reveal-failsafe 0.28s var(--reveal-ease) 1.8s forwards;
+}
+
+@keyframes reveal-failsafe {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.reveal--page,
+.reveal--hero,
+.reveal--eyebrow,
+.reveal--heading,
+.reveal--text,
+.reveal--nav,
+.reveal--decorative,
+.reveal--chip,
+.reveal--button {
+  --reveal-y: 10px;
+  --reveal-scale: 1;
+  --reveal-duration: 0.66s;
+}
+
+.reveal--eyebrow,
+.reveal--nav {
+  --reveal-y: 6px;
+  --reveal-duration: 0.54s;
+}
+
+.reveal--heading,
+.reveal--hero {
+  --reveal-y: 14px;
+  --reveal-duration: 0.74s;
+}
+
+.reveal--card {
+  --reveal-y: 14px;
+  --reveal-scale: 0.985;
+  --reveal-duration: 0.76s;
+}
+
+.reveal--image {
+  --reveal-y: 0;
+  --reveal-scale: 0.985;
+  --reveal-duration: 0.8s;
+}
+
+.portfolio-grid > .reveal,
+.certs-grid > .reveal,
+.work-featured > .reveal,
+.archive-grid > .reveal,
+.skills-bento > .reveal {
+  min-width: 0;
+  max-width: 100%;
+  height: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal.is-armed,
+  .reveal.is-armed:not(.is-visible),
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+    transition: none;
+    animation: none;
+  }
+}
